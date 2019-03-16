@@ -79,7 +79,7 @@ if __name__ == '__main__':
         if(graph_data_temp.iloc[i].isDuplex):  
             graph_data.loc[y,x] = value
     
-    graph_data = graph_data.fillna(100000)
+    graph_data = graph_data.fillna(float('inf'))
     for i in range(1,65):
         graph_data.loc[i][i] = 0
     
