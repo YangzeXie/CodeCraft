@@ -88,8 +88,10 @@ if __name__ == '__main__':
         y = graph_data_temp.iloc[i].to
         value = graph_data_temp.iloc[i].length
         graph_data.loc[x,y] = value
-        if(graph_data_temp.iloc[i].isDuplex):  
+        if(int(graph_data_temp.iloc[i].isDuplex)):  
             graph_data.loc[y,x] = value
+        else:
+            graph_data.loc[y,x] = float('inf')
     
     graph_data = graph_data.fillna(float('inf'))
     for i in range(1,65):
@@ -107,27 +109,24 @@ if __name__ == '__main__':
     v1 = 50
     
     answer = []
+    f = open('./answer.txt','a')
     for i in car_data.index:
         v0 = car_data.loc[i].start-1
         v1 = car_data.loc[i].to-1
         car_id = i
         planTime = car_data.loc[i].planTime
-        
-        
+        planTime = int(int(planTime)+ np.random.uniform(10,5000))
         answer_road = []
         p =[-1]*64
         dijkstra()
         path = Print(v0,n)
-        answer_road.append('(')
-        answer_road.append(car_id)
+        answer_road.append('('+car_id)
         answer_road.append(planTime)
+        path[-1] = str(path[-1])+')'
         answer_road = answer_road + path
-        answer_road.append(')')
-        answer.append(answer_road)
-    answer = pd.DataFrame(answer)
-    answer.dropna()
-    
-    answer.to_csv('answer.txt',index = 0)
+        s =str(answer_road).replace('[','').replace(']','').replace("'",'') + '\n'
+        f.write(s)
+    f.close()
     
     
 
