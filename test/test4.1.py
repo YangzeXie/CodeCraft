@@ -89,12 +89,12 @@ if __name__ == '__main__':
     graph_data = pd.DataFrame(index = np.arange(1,65),columns = np.arange(1,65))
   
     for i in range(len(graph_data_temp)):
-        x = graph_data_temp.iloc[i]._from
-        y = graph_data_temp.iloc[i].to
+        x = graph_data_temp.at[i,'_from']
+        y = graph_data_temp.at[i,'to']
 #        value = graph_data_temp.iloc[i].length
-        value = graph_data_temp.iloc[i].length/graph_data_temp.iloc[i].speed
+        value = graph_data_temp.at[i,'length']/graph_data_temp.iloc[i].speed
         graph_data.loc[x,y] = value
-        if(int(graph_data_temp.iloc[i].isDuplex)):  
+        if(int(graph_data_temp.at[i,'isDuplex'])):  
             graph_data.loc[y,x] = value
         else:
             graph_data.loc[y,x] = float('inf')    
@@ -105,13 +105,14 @@ if __name__ == '__main__':
     arcs_high = graph_list  #车速快时，由道路限速限制通过时间
 
     graph_data = pd.DataFrame(index = np.arange(1,65),columns = np.arange(1,65))
+    
     for i in range(len(graph_data_temp)):
-        x = graph_data_temp.iloc[i]._from
-        y = graph_data_temp.iloc[i].to
+        x = graph_data_temp.at[i,'_from']
+        y = graph_data_temp.at[i,'to']
         value = graph_data_temp.iloc[i].length
 #        value = graph_data_temp.iloc[i].length/graph_data_temp.iloc[i].speed
         graph_data.loc[x,y] = value
-        if(int(graph_data_temp.iloc[i].isDuplex)):  
+        if(int(graph_data_temp.at[i,'isDuplex'])):  
             graph_data.loc[y,x] = value
         else:
             graph_data.loc[y,x] = float('inf')    

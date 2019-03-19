@@ -1,14 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 17 10:58:51 2019
+
+@author: BZK
+"""
+'''
+使用道路通过时间替代了路径长度的dijkstra算法
+'''
 import logging
 import sys
 import pandas as pd
 import numpy as np
+
 
 logging.basicConfig(level=logging.DEBUG,
                     filename='../logs/CodeCraft-2019.log',
                     format='[%(asctime)s] %(levelname)s [%(funcName)s: %(filename)s, %(lineno)d] %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     filemode='a')
-
 
 def main():
     if len(sys.argv) != 5:
@@ -28,7 +37,9 @@ def main():
     MAX = float('inf')
     # dijkstra算法实现，有向图和路由的源点作为函数的输入，最短路径最为输出
     #def dijkstra(graph,num, src,end):
-    
+
+
+
     def dijkstra():
         for v in range(n) :
             fina[v] = 0;
@@ -76,8 +87,8 @@ def main():
                 path.append(int(road_data[(road_data._from == b )& (road_data.to == a)].id))
         
         return path   
-
-    car_data = pd.read_csv('car.txt',sep = ',',index_col=False,header=0)
+    
+    car_data = pd.read_csv(car_path,sep = ',',index_col=False,header=0)
     car_data.columns = ['id','start','to','speed','planTime']
     car_data = car_data.rename(columns=lambda x: x.replace("(","").replace(')','').replace('#',''))
     car_data.id = car_data.id.apply(lambda x: x.replace("(","").replace(')',''))
@@ -85,7 +96,7 @@ def main():
     car_data.set_index(['id'], inplace =True)
     
     
-    road_data = pd.read_csv('road.txt',sep = ',',index_col=False,header=0)
+    road_data = pd.read_csv(road_path,sep = ',',index_col=False,header=0)
     road_data.columns = ['id','length','speed','channel','_from', 'to', 'isDuplex']
     road_data = road_data.rename(columns=lambda x: x.replace("(","").replace(')','').replace('#',''))
     road_data.id = road_data.id.apply(lambda x: x.replace("(","").replace(')',''))
@@ -153,10 +164,13 @@ def main():
 #    answer_road = answer_road + path
 #    s =str(answer_road).replace('[','').replace(']','').replace("'",'') + '\n'   
     answer = []
-    f = open('./answer.txt','a')
+    f = open(answer_path,'a')
     f.truncate()
+    #速度快的优先出发
+    car_data = car_data.sort_values(by = ['speed','planTime'],ascending = (False,True))
     for i in car_data.index:
-        if car_data.loc[i].speed <= 4:
+       car_speed = car_data.loc[i].speed
+        if car_speed <= 4:
             arcs = arcs_low
         else:
             arcs = arcs_high
@@ -164,7 +178,10 @@ def main():
         v1 = car_data.loc[i].to-1
         car_id = i
         planTime = car_data.loc[i].planTime
-        planTime = int(int(planTime)+ np.random.uniform(0,1000))
+#        low_add = 0 if car_speed == 8 else (80 if car_speed == 6 else (240 if car_speed == 4 else 480))
+#        high_add = 80 if car_speed == 8 else (240 if car_speed == 6 else (480 if car_speed == 4 else 800))
+               
+#        planTime = int(int(planTime)+ np.random.uniform(low_add,high_add))
         answer_road = []
         p =[-1]*64
         dijkstra()

@@ -126,7 +126,7 @@ def main():
         v1 = car_data.loc[i].to-1
         car_id = i
         planTime = car_data.loc[i].planTime
-        planTime = int(int(planTime)+ np.random.uniform(10,1000))
+        planTime = int(int(planTime)+ np.random.uniform(10,950))
        
         answer_road = []
         p =[-1]*64
