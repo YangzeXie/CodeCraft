@@ -1,0 +1,14 @@
+2019.3.16
+今天你菜了吗
+
+1.java1.8.0_191在linux平台的安装，具体参考教程《linux安装卸载jdk1.8.0_191》
+2.如何在虚拟机的linux上编译呢。
+我们应该仔细研读官方给的工程编译指导书，把SDK文件夹拷贝到linux任一目录下，
+cd到该目录“SDK/SDK_java”，输入命令进行编译：
+sh build.sh
+生成的是打包好的jar文件
+哦对了，java我得用root用户才能使用，俺也不晓得为什么，可能这就是菜吧。
+3.运行
+cd到如下目录“SDK/SDK_java/bin/config”，ls你会发现有三个txt文件就是road car cross
+运行就是输入命令“sh startup.sh config/car.txt config/road.txt config/cross.txt config/answer.txt”。
+
