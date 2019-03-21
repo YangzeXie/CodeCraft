@@ -148,7 +148,7 @@ answer = []
 f = open(answer_path,'w+')
 f.truncate()
 #速度快的优先出发
-car_data = car_data.sort_values(by = ['speed','planTime'],ascending = (False,True))
+#car_data = car_data.sort_values(by = ['speed','planTime'],ascending = (False,True))
 for i in car_data.index:
     car_speed = car_data.loc[i].speed
     if car_speed <= 4:
