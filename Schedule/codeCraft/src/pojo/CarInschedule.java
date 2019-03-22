@@ -13,7 +13,16 @@ public class CarInschedule {
     private int distance;
     private boolean canOutCross = false;
     private int roadspeedlimit;
+    private String fromTo;
     private int direction = 3;  //3直行，2是左转，1是右转。默认直行，在每次变为等待状态时应该更新方向。
+
+    public String getFromTo() {
+        return fromTo;
+    }
+
+    public void setFromTo(String fromTo) {
+        this.fromTo = fromTo;
+    }
 
     public int getLaneid() {
         return laneid;

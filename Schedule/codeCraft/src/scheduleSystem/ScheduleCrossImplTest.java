@@ -24,4 +24,5 @@ class ScheduleCrossImplTest {
             System.out.printf("%d ", num);
         }
     }
+
 }

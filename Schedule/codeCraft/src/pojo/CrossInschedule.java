@@ -3,25 +3,11 @@ package pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrossInschedule implements Comparable{
+public class CrossInschedule implements Comparable {
     private int id;
-    private List<Integer> roadids = new ArrayList<>();
-    private List<RoadInschedule> roadsPQ = new ArrayList<>();   //实际上未必有序，每次要用时应当先排序
-    private List<RoadInschedule> roadsList = new ArrayList<>(); //按逆时针顺序存储的数据
-
-    public void update (RoadInschedule road) {
-        for (RoadInschedule rd : roadsPQ) {
-            if (rd.getId() == road.getId()) {
-                roadsPQ.remove(rd);
-                roadsPQ.add(road);
-            }
-        }
-        for (int i=0; i<roadsList.size(); i++) {
-            if (road.getId() == roadsList.get(i).getId())
-                roadsList.set(i, road);
-        }
-
-    }
+    private List<Integer> roadIndexPQ = new ArrayList<>();    //按优先级保存的每条路的下标, list[0]保存的是
+                                                              // 优先级最高的那条路的下标
+    private List<Integer> roadIds = new ArrayList<>(); //按逆时针顺序存储的id数据
 
     public int getId() {
         return id;
@@ -31,28 +17,20 @@ public class CrossInschedule implements Comparable{
         this.id = id;
     }
 
-    public List<RoadInschedule> getRoadsPQ() {
-        return roadsPQ;
+    public List<Integer> getRoadIndexPQ() {
+        return roadIndexPQ;
     }
 
-    public List<RoadInschedule> getRoadsList() {
-        return roadsList;
+    public void setRoadIndexPQ(List<Integer> roadIndexPQ) {
+        this.roadIndexPQ = roadIndexPQ;
     }
 
-    public void setRoadsList(List<RoadInschedule> roadsList) {
-        this.roadsList = roadsList;
+    public List<Integer> getRoadIds() {
+        return roadIds;
     }
 
-    public void setRoadsPQ(List<RoadInschedule> roadsInCross) {
-        this.roadsPQ = roadsInCross;
-    }
-
-    public List getRoadids() {
-        return roadids;
-    }
-
-    public void setRoadids(List roadids) {
-        this.roadids = roadids;
+    public void setRoadIds(List<Integer> roadIds) {
+        this.roadIds = roadIds;
     }
 
     @Override

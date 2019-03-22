@@ -1,35 +1,77 @@
 package pojo;
 
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class RoadInschedule implements Comparable{
     private int id;
-    private List<Lane> lanes = new ArrayList<>();
+    //key:"roadid"+"nextroadid", value存的是lane的list
+    private Map<String, List<Lane>> lanemap = new HashMap<>();
     private boolean isDone = false;
     private int speedLimit; //限速
+    private int beginId;
+    private int endId;
+    private boolean isBidirectional;
+    private int length;
 
     public void updateFirst(CarInschedule car) {
         int i = car.getLaneid();
+        List<Lane> lanes = lanemap.get(car.getRoadid()+"->"+car.getNextroadid());
         Deque<CarInschedule> cars = lanes.get(i).getCars();
         cars.removeFirst();
         cars.addFirst(car);
         lanes.get(i).setCars(cars);
+        lanemap.put(car.getRoadid()+"->"+car.getNextroadid(), lanes);
     }
+
     public void updateLast(CarInschedule car) {
         int i = car.getLaneid();
+        List<Lane> lanes = lanemap.get(car.getRoadid()+"->"+car.getNextroadid());
         Deque<CarInschedule> cars = lanes.get(i).getCars();
         cars.removeLast();
         cars.addLast(car);
         lanes.get(i).setCars(cars);
+        lanemap.put(car.getRoadid()+"->"+car.getNextroadid(), lanes);
     }
 
-    public void remove(CarInschedule car) {
+    public void removeFirst(CarInschedule car) {
         int i = car.getLaneid();
+        List<Lane> lanes = lanemap.get(car.getRoadid()+"->"+car.getNextroadid());
         Deque<CarInschedule> cars = lanes.get(i).getCars();
         cars.removeFirst();
         lanes.get(i).setCars(cars);
+        lanemap.put(car.getRoadid()+"->"+car.getNextroadid(), lanes);
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public int getBeginId() {
+        return beginId;
+    }
+
+    public void setBeginId(int beginId) {
+        this.beginId = beginId;
+    }
+
+    public boolean isBidirectional() {
+        return isBidirectional;
+    }
+
+    public void setBidirectional(boolean bidirectional) {
+        isBidirectional = bidirectional;
+    }
+
+    public int getEndId() {
+        return endId;
+    }
+
+    public void setEndId(int endId) {
+        this.endId = endId;
     }
 
     public int getId() {
@@ -40,20 +82,20 @@ public class RoadInschedule implements Comparable{
         this.id = id;
     }
 
+    public Map<String, List<Lane>> getLanemap() {
+        return lanemap;
+    }
+
+    public void setLanemap(Map<String, List<Lane>> lanemap) {
+        this.lanemap = lanemap;
+    }
+
     public boolean isDone() {
         return isDone;
     }
 
     public void setDone(boolean done) {
         isDone = done;
-    }
-
-    public List<Lane> getLanes() {
-        return lanes;
-    }
-
-    public void setLanes(List<Lane> lanes) {
-        this.lanes = lanes;
     }
 
     public int getSpeedLimit() {
