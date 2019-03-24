@@ -4,7 +4,7 @@ import pojo.CrossInschedule;
 
 public interface ScheduleCross {
     /**
-     * 调度一个路口
+     * 调度一个路口一个时间片
      */
     void scheduleOneCross(CrossInschedule crossInschedule);
     /**

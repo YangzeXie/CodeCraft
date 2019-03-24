@@ -117,7 +117,10 @@ def Seek(carData, crossData, roadData):
 
         lengthSumarize = len(sumarize)
         carRouteTmp = [carData[carNum][0]]
-        carRouteTmp.append(carData[carNum][-1])
+        car_speed = carData[carNum][3]
+        low_add = 0 if car_speed == 8 else (125 if car_speed == 6 else (250 if car_speed == 4 else 375))
+        high_add = 125 if car_speed == 8 else (250 if car_speed == 6 else (375 if car_speed == 4 else 500)) 
+        carRouteTmp.append(carData[carNum][-1]+int(np.random.uniform(low_add,high_add)))
         for i in range(1, lengthSumarize - 1):
             if carData[carNum][0] == 10054 and i == 5:
                 print("debug")

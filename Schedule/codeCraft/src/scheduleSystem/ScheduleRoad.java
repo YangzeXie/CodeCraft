@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ScheduleRoad {
     void updateOne(Lane lane);
-    void updateOneRoad(RoadInschedule road);
+    void updateOneRoad(RoadInschedule road, String fromTo);
 
     /**
      * updateAll应当返回每个路口上等待车辆的排队信息
