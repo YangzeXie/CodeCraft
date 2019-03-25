@@ -1,9 +1,28 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 17 10:58:51 2019
+
+@author: BZK
+"""
+'''
+使用道路通过时间替代了路径长度的dijkstra算法
+'''
 import logging
 import sys
+import pandas as pd
+import numpy as np
 from collections import defaultdict
 from heapq import *
+from collections import Counter
 import re
-import numpy as np
+
+
+carPath = './car.txt'
+roadPath = './road.txt'
+crossPath = './cross.txt'
+answerPath = './answer.txt'
+
+# dijkstra算法实现，有向图和路由的源点作为函数的输入，最短路径最为输出
 
 def dataProcess(carPath, crossPath, roadPath):
     carData = []
@@ -16,8 +35,6 @@ def dataProcess(carPath, crossPath, roadPath):
                 line[0] = re.findall("\d+", line[0])[0]
             if re.findall("\d+", line[-1]) != []:
                 line[-1] = re.findall("\d+", line[-1])[0]
-            # for i in range(len(line)):
-            #     line[i] = int(line[i].strip())
             carData.append(line)
     with open(roadPath, 'r') as lines:
         for line in lines:
@@ -53,12 +70,9 @@ def dataProcess(carPath, crossPath, roadPath):
     return carData, crossData, roadData
 
 def dijkstra(edges, f, t):
-    if f == 19 and t == 52:
-        print("debug")
     g = defaultdict(list)
     for l,r,c in edges:
         g[l].append((c,r))
-
     q, seen, mins = [(0,f,())], set(), {f: 0}
     while q:
         (cost,v1,path) = heappop(q)
@@ -80,9 +94,7 @@ def dijkstra(edges, f, t):
 
 
 def Seek(carData, crossData, roadData):
-
     edges = []
-
     # 生成地图（双向图）
     for i in range(len(roadData)):
         if (roadData[i][-1] == 1):
@@ -90,16 +102,7 @@ def Seek(carData, crossData, roadData):
             edges.append((str(roadData[i][-2]), str(roadData[i][-3]), roadData[i][1]))
         else:
             edges.append((str(roadData[i][-3]), str(roadData[i][-2]), roadData[i][1]))
-
-    # 生成地图（单向图）
-    # for i in range(len(roadData)):
-    #     if (roadData[i][-1] == 1):
-    #         edges.append((str(roadData[i][-3]), str(roadData[i][-2]), roadData[i][1]))
-
-    # print("ok")
-
     carRoute = []
-    # print(dijkstra(edges, "22", "2"))
     for carNum in range(len(carData)):
 
         # result = dijkstra(edges, "2", "31")
@@ -120,8 +123,6 @@ def Seek(carData, crossData, roadData):
         high_add = 125 if car_speed == 8 else (250 if car_speed == 6 else (375 if car_speed == 4 else 500)) 
         carRouteTmp.append(carData[carNum][-1]+int(np.random.uniform(low_add,high_add)))
         for i in range(1, lengthSumarize - 1):
-            if carData[carNum][0] == 10054 and i == 5:
-                print("debug")
             for j in range(len(roadData)):
                 if ((roadData[j][-3] == sumarize[lengthSumarize - i] and roadData[j][-2] == sumarize[lengthSumarize - i -1]) or (roadData[j][-2] == sumarize[lengthSumarize - i] and roadData[j][-3] == sumarize[lengthSumarize - i -1])):
                     carRouteTmp.append(roadData[j][0])
@@ -130,17 +131,10 @@ def Seek(carData, crossData, roadData):
 
     return carRoute
 
-
-car_path = './car.txt'
-road_path = './road.txt'
-cross_path = './cross.txt'
-answer_path = './answer.txt'
-
-
-carData, crossData, roadData = dataProcess(car_path, cross_path, road_path)
+carData, crossData, roadData = dataProcess(carPath, crossPath, roadPath)
 carRoute = Seek(carData, crossData, roadData)
 
-with open(answer_path, 'w') as f:
+with open(answerPath, 'w') as f:
     f.write('#(carId,StartTime,RoadId...)')
     f.write('\n')
     for i in range(len(carRoute)):
