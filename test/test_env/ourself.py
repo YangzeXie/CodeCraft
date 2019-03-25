@@ -112,7 +112,7 @@ def main():
             if result[1] != ():
                 result = result[1]
         sumarize.append(int(result[0]))
-    
+
         numbers = len(sumarize)
         carRouteTmp = [carData[carNum][0]]
         car_speed = carData[carNum][3]
