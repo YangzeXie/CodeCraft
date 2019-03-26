@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/zhibo/Desktop/huawei/CodeCraft-2019/CodeCraft-2019.cpp
+iostream
+/Users/zhibo/Desktop/huawei/CodeCraft-2019/iostream
+fstream
+-
+vector
+-
+include/element.h
+/Users/zhibo/Desktop/huawei/CodeCraft-2019/include/element.h
+
+/Users/zhibo/Desktop/huawei/CodeCraft-2019/include/element.h
+vector
+-
+iostream
+-
+

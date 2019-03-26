@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 17 10:58:51 2019
+
+@author: BZK
+"""
+'''
+使用道路通过时间替代了路径长度的dijkstra算法
+'''
 import logging
 import sys
 import numpy as np
@@ -67,14 +76,8 @@ def main():
         for line in lines:
             line = line.replace(' ', '').replace('\t', '')[1:-1].split(',')
             line = [int(i) for i in line]
-            if line[-2] in [2,4,6,8]:
-                carData.append(line)
-        carData = np.array(carData)
-        index = np.argsort(carData,0,kind = 'stable')[:,-2]
-        carData = carData[index, :]
-        carData = carData.tolist()
-        carData = carData[::-1]
-        
+            carData.append(line)
+
         lines = open(road_path, 'r').read().split('\n')[1:]
         for line in lines:
             line = line.replace(' ', '').replace('\t', '')[1:-1].split(',')
@@ -93,10 +96,10 @@ def main():
     
     for i in range(len(roadData)):
         if roadData[i][-1] == 1:
-            graphData.append([roadData[i][4], roadData[i][5], roadData[i][1]/roadData[i][3]])
-            graphData.append([roadData[i][5], roadData[i][4], roadData[i][1]/roadData[i][3]])
+            graphData.append([roadData[i][4], roadData[i][5], roadData[i][1]])
+            graphData.append([roadData[i][5], roadData[i][4], roadData[i][1]])
         elif roadData[i][-1] == 0:
-            graphData.append([roadData[i][4], roadData[i][5], roadData[i][1]/roadData[i][3]])
+            graphData.append([roadData[i][4], roadData[i][5], roadData[i][1]])
     
     
     carRoute = []
@@ -109,12 +112,12 @@ def main():
             if result[1] != ():
                 result = result[1]
         sumarize.append(int(result[0]))
-
+    
         numbers = len(sumarize)
         carRouteTmp = [carData[carNum][0]]
         car_speed = carData[carNum][3]
-        low_add = 0 if car_speed == 8 else (90 if car_speed == 6 else (190 if car_speed == 4 else 325))
-        high_add = 90 if car_speed == 8 else (190 if car_speed == 6 else (280 if car_speed == 4 else 400)) 
+        low_add = 0 if car_speed == 8 else (800 if car_speed == 6 else (1600 if car_speed == 4 else 2400))
+        high_add = 800 if car_speed == 8 else (1600 if car_speed == 6 else (2400 if car_speed == 4 else 3200)) 
         carRouteTmp.append(carData[carNum][-1]+int(np.random.uniform(low_add,high_add)))
         for i in range(1, numbers - 1):
             for j in range(len(roadData)):

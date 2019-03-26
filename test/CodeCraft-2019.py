@@ -26,6 +26,8 @@ def main():
     logging.info("cross_path is %s" % (cross_path))
     logging.info("answer_path is %s" % (answer_path))
 
+    np.random.seed(123)
+    
     def dataProcess(carPath, crossPath, roadPath):
         carData = []
         crossData = []
@@ -40,6 +42,12 @@ def main():
                 # for i in range(len(line)):
                 #     line[i] = int(line[i].strip())
                 carData.append(line)
+
+        carData = np.array(carData)
+        index = np.argsort(carData,0,kind = 'stable')[:,-2]
+        carData = carData[index, :]
+        carData = carData.tolist()
+        carData = carData[::-1]
         with open(roadPath, 'r') as lines:
             for line in lines:
                 line = line.split(',')
@@ -110,10 +118,10 @@ def main():
         # 生成地图（双向图）
         for i in range(len(roadData)):
             if (roadData[i][-1] == 1):
-                edges.append((str(roadData[i][-3]), str(roadData[i][-2]), roadData[i][1]))
-                edges.append((str(roadData[i][-2]), str(roadData[i][-3]), roadData[i][1]))
+                edges.append((str(roadData[i][-3]), str(roadData[i][-2]), roadData[i][1]/roadData[i][3]))
+                edges.append((str(roadData[i][-2]), str(roadData[i][-3]), roadData[i][1]/roadData[i][3]))
             else:
-                edges.append((str(roadData[i][-3]), str(roadData[i][-2]), roadData[i][1]))
+                edges.append((str(roadData[i][-3]), str(roadData[i][-2]), roadData[i][1]/roadData[i][3]))
 
         # 生成地图（单向图）
         # for i in range(len(roadData)):
@@ -140,8 +148,8 @@ def main():
             lengthSumarize = len(sumarize)
             carRouteTmp = [carData[carNum][0]]
             car_speed = carData[carNum][3]
-            low_add = 0 if car_speed == 8 else (150 if car_speed == 6 else (300 if car_speed == 4 else 450))
-            high_add = 150 if car_speed == 8 else (300 if car_speed == 6 else (450 if car_speed == 4 else 600)) 
+            low_add = 0 if car_speed == 8 else (90 if car_speed == 6 else (190 if car_speed == 4 else 325))
+            high_add = 90 if car_speed == 8 else (190 if car_speed == 6 else (280 if car_speed == 4 else 400)) 
             carRouteTmp.append(carData[carNum][-1]+int(np.random.uniform(low_add,high_add)))
             for i in range(1, lengthSumarize - 1):
                 if carData[carNum][0] == 10054 and i == 5:

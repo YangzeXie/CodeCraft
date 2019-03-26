@@ -1,0 +1,3 @@
+/Users/zhibo/Desktop/huawei/CodeCraft-2019/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/zhibo/Desktop/huawei/CodeCraft-2019/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/zhibo/Desktop/huawei/CodeCraft-2019/cmake-build-debug/CMakeFiles/CodeCraft-2019.dir
